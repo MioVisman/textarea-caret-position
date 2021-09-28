@@ -136,7 +136,7 @@
     // The  *only* reliable way to do that is to copy the *entire* rest of the
     // textarea's content into the <span> created at the caret position.
     // For inputs, just '.' would be enough, but no need to bother.
-    span.textContent = element.value.substring(position) || '.';  // || because a completely empty faux span doesn't render at all
+    span.textContent = element.value.substring(position); // empty span works right FF 92 + IE 11
     div.appendChild(span);
 
     var coordinates = {

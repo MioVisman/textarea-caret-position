@@ -113,6 +113,21 @@
     });
 
     if (isFirefox) {
+      if (
+        1 < Math.abs(
+          element.clientWidth
+          - parseFloat(computed.paddingRight)
+          - parseFloat(computed.paddingLeft)
+          - parseFloat(computed.width)
+        )
+      ) {
+        style.overflowY = 'scroll';
+      }
+    }
+
+
+/*
+    if (isFirefox) {
       // Firefox lies about the overflow property for textareas: https://bugzilla.mozilla.org/show_bug.cgi?id=984275
       if (element.scrollHeight > parseInt(computed.height)) {
         style.overflowY = 'scroll';
@@ -120,7 +135,7 @@
     } else {
       style.overflow = 'hidden';  // for Chrome to not render a scrollbar; IE keeps overflowY = 'scroll'
     }
-
+*/
     div.textContent = element.value.substring(0, position);
     // The second special handling for input type="text" vs textarea:
     // spaces need to be replaced with non-breaking spaces - http://stackoverflow.com/a/13402035/1269037

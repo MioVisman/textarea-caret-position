@@ -50,6 +50,7 @@
 
   var isBrowser = (typeof window !== 'undefined');
   var isFirefox = (isBrowser && window.mozInnerScreenX != null);
+  var isIE = (isBrowser && window.navigator.msPointerEnabled);
 
   function getCaretCoordinates(element, position, options) {
     if (!isBrowser) {
@@ -123,19 +124,10 @@
       ) {
         style.overflowY = 'scroll';
       }
+    } else if (isIE) {
+      style.overflowY = 'hidden';
     }
 
-
-/*
-    if (isFirefox) {
-      // Firefox lies about the overflow property for textareas: https://bugzilla.mozilla.org/show_bug.cgi?id=984275
-      if (element.scrollHeight > parseInt(computed.height)) {
-        style.overflowY = 'scroll';
-      }
-    } else {
-      style.overflow = 'hidden';  // for Chrome to not render a scrollbar; IE keeps overflowY = 'scroll'
-    }
-*/
     div.textContent = element.value.substring(0, position);
     // The second special handling for input type="text" vs textarea:
     // spaces need to be replaced with non-breaking spaces - http://stackoverflow.com/a/13402035/1269037

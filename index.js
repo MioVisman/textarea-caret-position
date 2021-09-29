@@ -45,9 +45,7 @@
     'letterSpacing',
     'wordSpacing',
 
-    'tabSize',
-    'MozTabSize'
-
+    'tabSize'
   ];
 
   var isBrowser = (typeof window !== 'undefined');

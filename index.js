@@ -11,8 +11,6 @@
   var properties = [
     'direction',  // RTL support
     'boxSizing',
-    'width',  // on Chrome and IE, exclude the scrollbar, so the mirror div wraps exactly as the textarea does
-    'height',
     'overflowX',
     'overflowY',  // copy the scrollbar for IE
 
@@ -34,7 +32,6 @@
     'fontStretch',
     'fontSize',
     'fontSizeAdjust',
-    'lineHeight',
     'fontFamily',
 
     'textAlign',
@@ -45,7 +42,12 @@
     'letterSpacing',
     'wordSpacing',
 
-    'tabSize'
+    'tabSize',
+
+    'lineHeight',
+
+    'width',  // on Chrome and IE, exclude the scrollbar, so the mirror div wraps exactly as the textarea does
+    'height'
   ];
 
   var isBrowser = (typeof window !== 'undefined');
@@ -86,30 +88,17 @@
       style.visibility = 'hidden';  // not 'display: none' because we want rendering
     }
 
+    var lineHeight;
+
     // Transfer the element's properties to the div
     properties.forEach(function (prop) {
-      if (isInput && prop === 'lineHeight') {
-        // Special case for <input>s because text is rendered centered and line height may be != height
-        if (computed.boxSizing === "border-box") {
-          var height = parseInt(computed.height);
-          var outerHeight =
-            parseInt(computed.paddingTop) +
-            parseInt(computed.paddingBottom) +
-            parseInt(computed.borderTopWidth) +
-            parseInt(computed.borderBottomWidth);
-          var targetHeight = outerHeight + parseInt(computed.lineHeight);
-          if (height > targetHeight) {
-            style.lineHeight = height - outerHeight + "px";
-          } else if (height === targetHeight) {
-            style.lineHeight = computed.lineHeight;
-          } else {
-            style.lineHeight = 0;
-          }
-        } else {
-          style.lineHeight = computed.height;
-        }
-      } else {
-        style[prop] = computed[prop];
+      style[prop] = computed[prop];
+
+      if (prop === 'lineHeight') {
+        div.innerHTML = 'A';
+        var one = div.offsetHeight;
+        div.innerHTML = 'A<br>A';
+        lineHeight = div.offsetHeight - one;
       }
     });
 
@@ -147,7 +136,7 @@
     var coordinates = {
       top: span.offsetTop + parseInt(computed['borderTopWidth']),
       left: span.offsetLeft + parseInt(computed['borderLeftWidth']),
-      height: parseInt(computed['lineHeight'])
+      height: lineHeight
     };
 
     if (debug) {

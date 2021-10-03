@@ -1,4 +1,7 @@
+// Textarea Caret Position
+// Copyright (C) 2021 Visman (mio.visman@yandex.ru)
 // Copyright (c) 2015 Jonathan Ong me@jongleberry.com
+// This project is under MIT license
 
 /* jshint browser: true */
 
